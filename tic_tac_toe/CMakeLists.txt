@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(tic_tac_toe CXX)
+
+set(TIC_TAC_TOE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(TIC_TAC_TOE_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
+set(TIC_TAC_TOE_VERSION_MAJOR 1)
+set(TIC_TAC_TOE_VERSION_MINOR 0)
+set(TIC_TAC_TOE_VERSION_PATCH 0)
+
+set(TIC_TAC_TOE_SOURCES src/main.cpp src/Board.cpp)
+
+add_executable(${PROJECT_NAME} ${TIC_TAC_TOE_SOURCES})

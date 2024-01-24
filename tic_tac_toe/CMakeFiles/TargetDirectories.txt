@@ -1,0 +1,3 @@
+/Users/forato/Projects/personal/learn-cpp/tic_tac_toe/CMakeFiles/tic_tac_toe.dir
+/Users/forato/Projects/personal/learn-cpp/tic_tac_toe/CMakeFiles/edit_cache.dir
+/Users/forato/Projects/personal/learn-cpp/tic_tac_toe/CMakeFiles/rebuild_cache.dir
