@@ -1,0 +1,3 @@
+[submodule "auth/auth/include/Crow"]
+	path = auth/auth/include/Crow
+	url = https://github.com/CrowCpp/Crow
