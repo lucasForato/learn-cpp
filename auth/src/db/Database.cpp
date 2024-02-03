@@ -1,36 +1,21 @@
 #include "Database.h"
-#include <sqlite3.h>
+#include "models/User.h"
+#include "models/UserModel.h"
 #include <iostream>
+#include <sqlite3.h>
 
 using namespace std;
 
-Database::Database(const char* url) {
+Database::Database(const char *url) {
   int rc = sqlite3_open(url, &db);
 
-   if( rc ) {
-      cout << "Can't open database\n";
-   } else {
-      cout << "Opened database successfully\n";
-   }
+  User user = new UserModel(db);
+
+  if (rc) {
+    cout << "Can't open database\n";
+  } else {
+    cout << "Opened database successfully\n";
+  }
 }
 
-static int callback(void *data, int argc, char **argv, char **azColName) {
-  return 0;
-}
-
-int Database::exec(const char* query) {
-  int rc = sqlite3_exec(db, query, callback, nullptr, nullptr);
-
-  if( rc != SQLITE_OK ){
-      fprintf(stderr, "Error executing query\n");
-   } else {
-      fprintf(stdout, "Query executed successfully\n");
-   }
-
-  return rc;
-}
-
-void Database::close() {
-  sqlite3_close(db);
-}
-
+void Database::close() { sqlite3_close(db); }

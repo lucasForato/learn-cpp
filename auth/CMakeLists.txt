@@ -19,9 +19,10 @@ set(AUTH_API_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 # --- Source Files -------------------------------------------------------------
 
 set(AUTH_API_SOURCES 
-    src/main.cpp
-    src/db/Database.cpp
-    src/db/QueryResponse.cpp
+  src/main.cpp
+  src/db/Database.cpp
+  src/db/QueryResponse.cpp
+  src/db/models/User.cpp
 )
 
 # --- Executable ---------------------------------------------------------------
