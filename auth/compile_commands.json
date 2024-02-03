@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
-  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/api_auth.dir/src/main.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/main.cpp",
-  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/main.cpp",
-  "output": "CMakeFiles/api_auth.dir/src/main.cpp.o"
-}
-]
