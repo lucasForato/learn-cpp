@@ -20,6 +20,8 @@ set(AUTH_API_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 set(AUTH_API_SOURCES 
     src/main.cpp
+    src/db/Database.cpp
+    src/db/QueryResponse.cpp
 )
 
 # --- Executable ---------------------------------------------------------------
@@ -28,6 +30,10 @@ add_executable(${PROJECT_NAME} ${AUTH_API_SOURCES})
 
 # --- Third Party --------------------------------------------------------------
 
-find_package(Crow)
+find_package(Crow REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC Crow::Crow)
 target_include_directories(${PROJECT_NAME} PUBLIC ${Crow_INCLUDE_DIRS})
+
+
+find_package(SQLite3 REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC SQLite::SQLite3)
