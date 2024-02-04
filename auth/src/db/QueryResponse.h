@@ -8,6 +8,8 @@ public:
   QueryResponse() : data({}), error(nullptr) {}
   void add_data(T d);
 
+  std::vector<T> get_data() { return data; }
+
 private:
   std::vector<T> data;
   char *error;

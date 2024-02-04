@@ -1,15 +1,18 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "Model.h"
+#include "QueryResponse.h"
 #include "models/User.h"
 #include <sqlite3.h>
+#include <string>
 
 class Database {
 public:
   Database(const char *url);
+
+  QueryResponse<User> exec(std::string query);
+  static int callback(void *data, int argc, char **argv, char **azColName);
   void close();
-  Model<User> *user;
 
 private:
   sqlite3 *db;

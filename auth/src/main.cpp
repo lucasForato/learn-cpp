@@ -1,17 +1,24 @@
 #include "db/Database.h"
-#include "db/models/User.h"
 #include <crow/app.h>
 
-int main()
-{
-    crow::SimpleApp app;
+int main() {
+  crow::SimpleApp app;
 
-    CROW_ROUTE(app, "/")([](){
-        Database db("test.db");
+  CROW_ROUTE(app, "/")
+  ([]() {
+    Database db("cpp.db");
 
-        db.user->select("SELECT * FROM users");
-        return 0;
-    });
+    QueryResponse<User> res = db.exec("SELECT * FROM users");
 
-    app.port(8000).multithreaded().run();
+    for (User user : res.get_data()) {
+      cout << "id: " << user.get_id() << endl;
+      cout << "username: " << user.get_username() << endl;
+      cout << "email: " << user.get_email() << endl;
+      cout << "pass: " << user.get_password() << endl;
+    }
+
+    return "finished";
+  });
+
+  app.port(8000).multithreaded().run();
 }
