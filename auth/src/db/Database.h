@@ -11,6 +11,8 @@ public:
   Database(const char *url);
 
   QueryResponse<User> exec(std::string query);
+  int exec(std::string query, vector<string> &values);
+  
   static int callback(void *data, int argc, char **argv, char **azColName);
   void close();
 

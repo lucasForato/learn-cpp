@@ -54,4 +54,23 @@ QueryResponse<User> Database::exec(string query) {
   return response;
 }
 
+int Database::exec(string query, vector<string> &values) {
+  sqlite3_stmt *stmt;
+  int rc = sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, 0);
+  if (rc != SQLITE_OK) {
+    fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+    return rc;
+  }
+  for (int i = 0; i < values.size(); i++) {
+    sqlite3_bind_text(stmt, i + 1, values[i].c_str(), -1, SQLITE_STATIC);
+  }
+  rc = sqlite3_step(stmt);
+  if (rc != SQLITE_DONE) {
+    fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+    return rc;
+  }
+  sqlite3_finalize(stmt);
+  return rc;
+};
+
 void Database::close() { sqlite3_close(db); }
