@@ -39,9 +39,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${Crow_INCLUDE_DIRS})
 find_package(SQLite3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC SQLite::SQLite3)
 
-# add_subdirectory(third_party/libbcrypt)
-# find_package(libbcrypt REQUIRED)
-# set(BCRYPT_LIB,"${CMAKE_CURRENT_SOURCE_DIR}/third_party/libbcrypt/")
-# target_link_libraries(${PROJECT_NAME} PUBLIC ${BCRYPT_LIB})
 
+find_library(BCRYPT_LIBRARY bcrypt)
+if(NOT BCRYPT_LIBRARY)
+    message(FATAL_ERROR "bcrypt library not found.")
+endif()
+target_include_directories(${PROJECT_NAME} PUBLIC ${BCRYPT_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${BCRYPT_LIBRARY})
 

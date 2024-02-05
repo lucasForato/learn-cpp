@@ -1,3 +1,4 @@
+#include "bcrypt/BCrypt.hpp"
 #include "db/Database.h"
 #include "db/QueryResponse.h"
 #include <crow/app.h>
@@ -20,19 +21,16 @@ int main() {
           return crow::response(400);
         }
 
-        string username = body["username"].s();
-        string email = body["email"].s();
         string password = body["password"].s();
+        string hash = BCrypt::generateHash(password);
 
         Database db("cpp.db");
-
         string sql = "INSERT INTO users (username, email, password)"
                      "VALUES (?, ?, ?);";
 
-        vector<string> values = {body["username"].s(), body["email"].s(),
-                                 body["password"].s()};
+        vector<string> values = {body["username"].s(), body["email"].s(), hash};
 
-        int res = db.exec(sql, values);
+        db.exec(sql, values);
 
         crow::json::wvalue response({{"status", 200}});
 
