@@ -5,29 +5,41 @@
 int main() {
   crow::SimpleApp app;
 
-  CROW_ROUTE(app, "/health")
-  ([]() {
+  CROW_ROUTE(app, "/health").methods("GET"_method)([]() {
     crow::json::wvalue response({{"status", "ok"}});
     return response;
   });
 
   CROW_ROUTE(app, "/signup")
-  ([]() {
-    Database db("cpp.db");
+      .methods("POST"_method)([](const crow::request &req) {
+        crow::json::rvalue body = crow::json::load(req.body);
 
-    string sql = "INSERT INTO users (id, username, email, password) VALUES (?, "
-                 "?, ?, ?);";
-    vector<string> values = {"3", "test", "test", "test"};
+        // validation
+        if (!body.has("username") || !body.has("email") ||
+            !body.has("password")) {
+          return crow::response(400);
+        }
 
-    int res = db.exec(sql, values);
+        string username = body["username"].s();
+        string email = body["email"].s();
+        string password = body["password"].s();
 
-    crow::json::wvalue response({{"status", 200}});
+        Database db("cpp.db");
 
-    return response;
-  });
+        string sql = "INSERT INTO users (username, email, password)"
+                     "VALUES (?, ?, ?);";
 
-  CROW_ROUTE(app, "/users")
-  ([]() {
+        vector<string> values = {body["username"].s(), body["email"].s(),
+                                 body["password"].s()};
+
+        int res = db.exec(sql, values);
+
+        crow::json::wvalue response({{"status", 200}});
+
+        return crow::response(response);
+      });
+
+  CROW_ROUTE(app, "/users").methods("GET"_method)([]() {
     Database db("cpp.db");
 
     string sql = "SELECT * FROM users;";
