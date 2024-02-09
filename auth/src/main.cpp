@@ -1,6 +1,5 @@
-#include "bcrypt/BCrypt.hpp"
-#include "db/Database.h"
-#include "db/QueryResponse.h"
+#include "usecases/ListUsersUseCase.h"
+#include "usecases/SignupUseCase.h"
 #include <crow/app.h>
 
 int main()
@@ -13,40 +12,25 @@ int main()
 	});
 
 	CROW_ROUTE(app, "/signup").methods("POST"_method)([](const crow::request& req) {
+		// -- validation -----------------------------------------------------------
 		crow::json::rvalue body = crow::json::load(req.body);
-
-		// validation
 		if(!body.has("username") || !body.has("email") || !body.has("password"))
 		{
 			return crow::response(400);
 		}
 
-		string password = body["password"].s();
-		string hash = BCrypt::generateHash(password);
+		// -- execution ------------------------------------------------------------
+		SignupUseCase usecase;
+		Result res =
+			usecase.execute({body["username"].s(), body["email"].s(), body["password"].s()});
 
-		Database db("cpp.db");
-		string sql = "INSERT INTO users (username, email, password)"
-					 "VALUES (?, ?, ?);";
-
-		vector<string> values = {body["username"].s(), body["email"].s(), hash};
-
-		db.exec(sql, values);
-
-		crow::json::wvalue response({{"status", 200}});
-
-		return crow::response(response);
+		return crow::response(res.get_json());
 	});
 
 	CROW_ROUTE(app, "/users").methods("GET"_method)([]() {
-		Database db("cpp.db");
-
-		string sql = "SELECT * FROM users;";
-		QueryResponse<User> res = db.exec(sql);
-
-		vector<crow::json::wvalue> users = res.dto();
-
-		crow::json::wvalue response({{"status", 200}, {"users", users}});
-		return response;
+		ListUsersUseCase usecase;
+		Result res = usecase.execute();
+		return crow::response(res.get_json());
 	});
 
 	app.port(8000).multithreaded().run();

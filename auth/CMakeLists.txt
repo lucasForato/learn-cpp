@@ -20,6 +20,9 @@ set(AUTH_API_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 set(AUTH_API_SOURCES 
   src/main.cpp
+  src/shared/Result.cpp
+  src/usecases/SignupUseCase.cpp
+  src/usecases/ListUsersUseCase.cpp
   src/db/Database.cpp
   src/db/QueryResponse.cpp
   src/db/models/User.cpp
