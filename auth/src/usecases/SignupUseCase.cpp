@@ -10,17 +10,16 @@ Result SignupUseCase::execute(SignupInput input)
 {
 	string hash = BCrypt::generateHash(input.password);
 
-	Database db("cpp.db");
 	string sql = "INSERT INTO users (username, email, password)"
 				 "VALUES (?, ?, ?);";
 
 	vector<string> values = {input.username, input.email, hash};
 
-	int rc = db.exec(sql, values);
+	int rc = Database::exec(sql, values);
 	if(rc == SQLITE_CONSTRAINT)
 	{
 		Result result = Result::error(409, "User already exists");
-    return result;
+		return result;
 	}
 
 	Result result = Result::success(201, "User created successfully");

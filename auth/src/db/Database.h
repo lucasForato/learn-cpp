@@ -8,16 +8,11 @@
 
 class Database {
 public:
-  Database(const char *url);
-
-  QueryResponse<User> exec(std::string query);
-  int exec(std::string query, vector<string> &values);
+  static sqlite3* open(std::string path);
+  static QueryResponse<User> exec(std::string query);
+  static int exec(std::string query, vector<string> &values);
   
   static int callback(void *data, int argc, char **argv, char **azColName);
-  void close();
-
-private:
-  sqlite3 *db;
 };
 
 #endif

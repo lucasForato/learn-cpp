@@ -23,6 +23,7 @@ set(AUTH_API_SOURCES
   src/shared/Result.cpp
   src/usecases/SignupUseCase.cpp
   src/usecases/ListUsersUseCase.cpp
+  src/usecases/SigninUseCase.cpp
   src/db/Database.cpp
   src/db/QueryResponse.cpp
   src/db/models/User.cpp

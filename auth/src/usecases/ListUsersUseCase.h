@@ -7,7 +7,7 @@
 class ListUsersUseCase 
 {
 public:
-	Result execute();
+	static Result execute();
 };
 
 #endif

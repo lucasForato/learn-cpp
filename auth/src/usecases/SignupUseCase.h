@@ -15,7 +15,7 @@ struct SignupInput
 class SignupUseCase
 {
 public:
-	Result execute(SignupInput input);
+	static Result execute(SignupInput input);
 };
 
 #endif
