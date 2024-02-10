@@ -98,3 +98,33 @@ int Database::exec(string query, vector<string>& values)
 	sqlite3_close(db);
 	return rc;
 };
+
+QueryResponse<User> Database::select(string query, vector<string>& values)
+{
+	QueryResponse<User> response;
+
+	sqlite3* db = Database::open("cpp.db");
+
+  build_query(query, values);
+
+	int rc = sqlite3_exec(db, query.c_str(), callback, &response, nullptr);
+
+	if(rc != SQLITE_OK)
+	{
+		fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+	}
+
+	sqlite3_close(db);
+
+	return response;
+}
+
+string Database::build_query(string& query, vector<string>& values) 
+{ 
+  while (query.find("?") != string::npos) 
+  { 
+    query.replace(query.find("?"), 1, '"' + values.front() + '"'); 
+    values.erase(values.begin()); 
+  } 
+  return query;
+}

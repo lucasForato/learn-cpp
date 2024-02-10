@@ -11,6 +11,8 @@ public:
   static sqlite3* open(std::string path);
   static QueryResponse<User> exec(std::string query);
   static int exec(std::string query, vector<string> &values);
+  static QueryResponse<User> select(std::string query, vector<string> &values);
+  static std::string build_query(std::string& query, vector<string> &values);
   
   static int callback(void *data, int argc, char **argv, char **azColName);
 };

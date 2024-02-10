@@ -1,7 +1,7 @@
 #include "SigninUseCase.h"
 #include "../db/Database.h"
 #include "../shared/Result.h"
-#include <iostream>
+#include "bcrypt/BCrypt.hpp"
 
 using namespace std;
 
@@ -9,13 +9,16 @@ Result SigninUseCase::execute(SigninUseCaseInput input)
 {
 	vector<string> values = {input.email};
 
-	int rc = Database::exec("SELECT * FROM users WHERE email = ?;", values);
-	if(rc == SQLITE_NOTFOUND)
-	{
-		Result result = Result::error(404, "User not found");
-		return result;
-	}
+	QueryResponse<User> user = Database::select("SELECT * FROM users WHERE email = ?;", values);
 
-	cout << "User found" << rc << endl;
-	return Result::ok();
+  string pass = user.get_data()[0].get_password();
+
+  bool does_pass_match = BCrypt::validatePassword(input.password, pass);
+
+  if (!does_pass_match)
+  {
+    return Result::error(401, "Invalid email or password");
+  }
+
+	return Result::success(200, user.dto());
 }
