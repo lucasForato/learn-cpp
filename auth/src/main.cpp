@@ -7,10 +7,14 @@ int main()
 {
 	crow::SimpleApp app;
 
+// --- Health check -----------------------------------------------------------
+  
 	CROW_ROUTE(app, "/health").methods("GET"_method)([]() {
 		crow::json::wvalue response({{"status", "ok"}});
 		return response;
 	});
+
+// --- Signup ------------------------------------------------------------------
 
 	CROW_ROUTE(app, "/signup").methods("POST"_method)([](const crow::request& req) {
 		crow::json::rvalue body = crow::json::load(req.body);
@@ -25,6 +29,8 @@ int main()
 		return crow::response(res.get_json());
 	});
 
+// --- Signin ------------------------------------------------------------------
+
   CROW_ROUTE(app, "/signin").methods("POST"_method)([](const crow::request& req) {
       crow::json::rvalue body = crow::json::load(req.body);
       if(!body.has("email") || !body.has("password"))
@@ -36,6 +42,8 @@ int main()
       return crow::response(res.get_json());
         
   });
+
+// --- List users --------------------------------------------------------------
 
 	CROW_ROUTE(app, "/users").methods("GET"_method)([]() {
 		Result res = ListUsersUseCase::execute();

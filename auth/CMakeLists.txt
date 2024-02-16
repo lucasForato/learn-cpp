@@ -8,7 +8,7 @@ set(AUTH_API_VERSION_PATCH 0)
 
 # --- Project And Compiler -----------------------------------------------------
 
-project(api_auth)
+project(main)
 set(CMAKE_CXX_STANDARD 17)
 
 # --- Directories --------------------------------------------------------------
