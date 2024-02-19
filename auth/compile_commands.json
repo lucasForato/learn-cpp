@@ -1,0 +1,50 @@
+[
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/main.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/main.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/main.cpp",
+  "output": "CMakeFiles/main.dir/src/main.cpp.o"
+},
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/shared/Result.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/shared/Result.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/shared/Result.cpp",
+  "output": "CMakeFiles/main.dir/src/shared/Result.cpp.o"
+},
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/usecases/SignupUseCase.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/usecases/SignupUseCase.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/usecases/SignupUseCase.cpp",
+  "output": "CMakeFiles/main.dir/src/usecases/SignupUseCase.cpp.o"
+},
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/usecases/ListUsersUseCase.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/usecases/ListUsersUseCase.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/usecases/ListUsersUseCase.cpp",
+  "output": "CMakeFiles/main.dir/src/usecases/ListUsersUseCase.cpp.o"
+},
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/usecases/SigninUseCase.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/usecases/SigninUseCase.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/usecases/SigninUseCase.cpp",
+  "output": "CMakeFiles/main.dir/src/usecases/SigninUseCase.cpp.o"
+},
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/db/Database.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/db/Database.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/db/Database.cpp",
+  "output": "CMakeFiles/main.dir/src/db/Database.cpp.o"
+},
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/db/QueryResponse.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/db/QueryResponse.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/db/QueryResponse.cpp",
+  "output": "CMakeFiles/main.dir/src/db/QueryResponse.cpp.o"
+},
+{
+  "directory": "/Users/forato/Projects/personal/learn-cpp/auth",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DASIO_STANDALONE -D_CROW_ICD-NOTFOUND -isystem /usr/local/include -isystem /opt/homebrew/include -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.2.sdk -o CMakeFiles/main.dir/src/db/models/User.cpp.o -c /Users/forato/Projects/personal/learn-cpp/auth/src/db/models/User.cpp",
+  "file": "/Users/forato/Projects/personal/learn-cpp/auth/src/db/models/User.cpp",
+  "output": "CMakeFiles/main.dir/src/db/models/User.cpp.o"
+}
+]
