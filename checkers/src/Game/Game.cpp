@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "../Checker/Checker.h"
 #include "raylib.h"
+#include <iostream>
+#include <optional>
 #include <vector>
 
 static const int square_size = 100;
@@ -96,4 +98,34 @@ void Game::draw()
 	this->draw_board();
 	this->draw_pieces();
 	EndDrawing();
+}
+
+int Game::get_round()
+{
+	return this->round;
+}
+
+void Game::increment_round()
+{
+	this->round += 1;
+}
+
+optional<Checker> Game::get_by_position(int x, int y)
+{
+	vector<Checker>* team = (this->round % 2 == 0) ? &this->team_blue : &this->team_red;
+
+	for(auto& checker : *team)
+	{
+		int x_pos = checker.get_x();
+		int y_pos = checker.get_y();
+		bool x_in_range = x >= x_pos * 100 && x <= (x_pos * 100) + 100;
+		bool y_in_range = y >= y_pos * 100 && y <= (y_pos * 100) + 100;
+		if(x_in_range && y_in_range)
+		{
+      cout << "Checker found" << endl;
+			return checker;
+		}
+	}
+  cout << "Checker not found" << endl;
+	return nullopt;
 }
