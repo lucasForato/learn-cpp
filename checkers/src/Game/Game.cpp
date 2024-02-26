@@ -3,9 +3,14 @@
 #include <vector>
 
 static const int SQUARE_SIZE = 100;
+
 static const int EMPTY = 0;
+
 static const int TEAM_RED = 1;
+static const int TEAM_RED_KING = 3;
+
 static const int TEAM_BLUE = 2;
+static const int TEAM_BLUE_KING = 4;
 
 Game::Game()
 {
