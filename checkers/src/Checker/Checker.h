@@ -1,22 +1,35 @@
 #ifndef CHECKER_H
-#define CHECKER_H
+#	define CHECKER_H
+
+enum TEAM
+{
+	R,
+	B
+};
 
 class Checker
 {
-  public:
-    Checker(int x, int y);
-    void set_x(int x);
-    int get_x();
+public:
+	Checker(int x, int y, TEAM team);
+	void set_x(int x);
+	int get_x();
 
-    void set_y(int y);
-    int get_y();
+	void set_y(int y);
+	int get_y();
 
-    void turn_king();
+	void turn_king();
 
-  private:
-    int x;
-    int y;
-    bool is_king;
+	TEAM get_team();
+
+  bool get_is_king();
+
+  void draw();
+
+private:
+	int x;
+	int y;
+	bool is_king;
+	TEAM team;
 };
 
 #endif
