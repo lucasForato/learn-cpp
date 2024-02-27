@@ -2,7 +2,6 @@
 #include "raylib.h"
 
 const int SQUARE_SIZE = 100;
-using namespace std;
 
 Checker::Checker(int x, int y, TEAM team)
 	: x{x}

@@ -1,7 +1,6 @@
 #include "EventManager/EventManager.h"
 #include "Game/Game.h"
 #include "raylib.h"
-#include <iostream>
 
 using namespace std;
 
@@ -13,15 +12,20 @@ int main(void)
 
 	while(!WindowShouldClose())
 	{
-		// event_manager.connect(EventManager::CLICK(), [&game]() {
-		// 	float x = GetTouchX();
-		// 	float y = GetTouchY();
-		// 	Vector2 click = {x, y};
-  //     cout << "Click at " << x << ", " << y << endl;
-		// 	// optional<Checker> checker = game.get_by_position(click.x, click.y);
-		// });
+    vector<Vector2> moves;
+		event_manager.connect(EventManager::CLICK(), [&game, &moves]() {
+			Vector2 position = Vector2{float(GetTouchX()), float(GetTouchY())};
+      moves = game.get_moves_by_position(position);
+		});
 
-		game.draw();
+    if (moves.size() > 0)
+    {
+      game.draw(moves);
+    }
+    else
+    {
+      game.draw();
+    }
 	}
 
 	CloseWindow();
