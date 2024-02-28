@@ -33,7 +33,7 @@ Game::Game()
 				row.push_back(EMPTY);
 			}
 		}
-		this->game.push_back(row);
+		game.push_back(row);
 	}
 }
 
@@ -41,8 +41,8 @@ Game::Game()
 
 void Game::draw_board()
 {
-	vector<Vector2> moves = this->get_moves();
-	optional<Vector2> focus = this->get_focus();
+	vector<Vector2> moves = get_moves();
+	optional<Vector2> focus = get_focus();
 
 	for(int i = 0; i < 8; i++)
 	{
@@ -84,7 +84,7 @@ void Game::draw_pieces()
 		{
 			int center_x = x * SQUARE_SIZE + SQUARE_SIZE / 2;
 			int center_y = y * SQUARE_SIZE + SQUARE_SIZE / 2;
-			int piece = this->game[x][y];
+			int piece = game[x][y];
 			if(piece == TEAM_RED) DrawCircle(center_x, center_y, 40, RED);
 			if(piece == TEAM_BLUE) DrawCircle(center_x, center_y, 40, BLUE);
 		}
@@ -96,8 +96,8 @@ void Game::draw()
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
 	{
-		this->draw_board();
-		this->draw_pieces();
+		draw_board();
+		draw_pieces();
 	}
 	EndDrawing();
 }
@@ -126,12 +126,12 @@ Vector2 Game::get_board_position(int x, int y)
 
 int Game::get_by_position(Vector2& position)
 {
-	return this->game[position.x][position.y];
+	return game[position.x][position.y];
 }
 
 void Game::remove_by_position(Vector2& position)
 {
-	this->game[position.x][position.y] = 0;
+	game[position.x][position.y] = 0;
 }
 
 bool Game::can_move(DIRECTION direction, Vector2 position)
@@ -223,44 +223,43 @@ void Game::blue_king_moves(Vector2& position)
 
 void Game::get_moves_by_position(Vector2& position)
 {
-	int checker = this->game[position.x][position.y];
+	int checker = game[position.x][position.y];
 
 	if(checker == TEAM_RED) red_moves(position);
 	if(checker == TEAM_BLUE) blue_moves(position);
 	if(checker == TEAM_RED_KING) red_king_moves(position);
 	if(checker == TEAM_BLUE_KING) blue_king_moves(position);
-
-	if(this->moves.size() > 0) set_focus(position);
+	if(moves.size()) set_focus(position);
 }
 
 vector<Vector2> Game::get_moves()
 {
-	return this->moves;
+	return moves;
 }
 
 void Game::reset_moves()
 {
-	this->moves.clear();
+	moves.clear();
 }
 
 void Game::add_move(Vector2 position)
 {
-	this->moves.push_back(position);
+	moves.push_back(position);
 }
 
 optional<Vector2> Game::get_focus()
 {
-	return this->focus;
+	return focus;
 }
 
 void Game::reset_focus()
 {
-	this->focus = nullopt;
+	focus = nullopt;
 }
 
 void Game::set_focus(Vector2& new_focus)
 {
-	this->focus = new_focus;
+	focus = new_focus;
 }
 
 bool Game::is_invalid_position(Vector2& position)
