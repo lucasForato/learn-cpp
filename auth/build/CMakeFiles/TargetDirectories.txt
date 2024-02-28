@@ -1,0 +1,3 @@
+/Users/forato/Projects/personal/learn-cpp/auth/build/CMakeFiles/main.dir
+/Users/forato/Projects/personal/learn-cpp/auth/build/CMakeFiles/edit_cache.dir
+/Users/forato/Projects/personal/learn-cpp/auth/build/CMakeFiles/rebuild_cache.dir
