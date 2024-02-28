@@ -10,11 +10,9 @@ enum EventType
 
 class EventManager
 {
-  public:
-    static bool CLICK();
-    void connect(bool triggered, std::function<void()> handler);
-
-  private:
+	public:
+	static bool CLICK();
+	static void connect(bool triggered, std::function<void()> handler);
 };
 
 #endif

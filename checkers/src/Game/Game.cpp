@@ -1,17 +1,17 @@
 #include "Game.h"
 #include "raylib.h"
+#include <cmath>
 #include <iostream>
 #include <vector>
 
 static const int SQUARE_SIZE = 100;
-
 static const int EMPTY = 0;
-
 static const int TEAM_RED = 1;
 static const int TEAM_RED_KING = 3;
-
 static const int TEAM_BLUE = 2;
 static const int TEAM_BLUE_KING = 4;
+
+// Constructor -----------------------------------------------------------------
 
 Game::Game()
 {
@@ -37,26 +37,13 @@ Game::Game()
 	}
 }
 
+// Drawing methods -------------------------------------------------------------
+
 void Game::draw_board()
 {
-	for(int i = 0; i < 8; i++)
-	{
-		for(int j = 0; j < 8; j++)
-		{
-			if((i + j) % 2 == 0)
-			{
-				DrawRectangle(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, BLACK);
-			}
-			else
-			{
-				DrawRectangle(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, RAYWHITE);
-			}
-		}
-	}
-}
+	vector<Vector2> moves = this->get_moves();
+	optional<Vector2> focus = this->get_focus();
 
-void Game::draw_board(vector<Vector2>& position)
-{
 	for(int i = 0; i < 8; i++)
 	{
 		for(int j = 0; j < 8; j++)
@@ -68,6 +55,22 @@ void Game::draw_board(vector<Vector2>& position)
 			else
 			{
 				DrawRectangle(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, RAYWHITE);
+			}
+
+			if(focus.has_value() && focus.value().x == i && focus.value().y == j)
+			{
+				DrawRectangle(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, YELLOW);
+			}
+
+			if(moves.size() > 0)
+			{
+				for(int k = 0; k < moves.size(); k++)
+				{
+					if(moves[k].x == i && moves[k].y == j)
+					{
+						DrawRectangle(i * SQUARE_SIZE, j * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE, GREEN);
+					}
+				}
 			}
 		}
 	}
@@ -82,10 +85,8 @@ void Game::draw_pieces()
 			int center_x = x * SQUARE_SIZE + SQUARE_SIZE / 2;
 			int center_y = y * SQUARE_SIZE + SQUARE_SIZE / 2;
 			int piece = this->game[x][y];
-			if(piece == TEAM_RED)
-				DrawCircle(center_x, center_y, 40, RED);
-			if(piece == TEAM_BLUE)
-				DrawCircle(center_x, center_y, 40, BLUE);
+			if(piece == TEAM_RED) DrawCircle(center_x, center_y, 40, RED);
+			if(piece == TEAM_BLUE) DrawCircle(center_x, center_y, 40, BLUE);
 		}
 	}
 }
@@ -101,187 +102,168 @@ void Game::draw()
 	EndDrawing();
 }
 
-void Game::draw(vector<Vector2>& positions)
-{
-	BeginDrawing();
-	ClearBackground(RAYWHITE);
-	{
-		this->draw_board(positions);
-		this->draw_pieces();
-	}
-	EndDrawing();
-}
+// Game logic methods ----------------------------------------------------------
 
 void Game::convert_position(Vector2& position)
 {
-	position.x = position.x / SQUARE_SIZE;
-	position.y = position.y / SQUARE_SIZE;
+	position.x = floor(position.x / SQUARE_SIZE);
+	position.y = floor(position.y / SQUARE_SIZE);
+}
+
+Vector2 Game::get_board_position(float x, float y)
+{
+	x = floor(x / SQUARE_SIZE);
+	y = floor(y / SQUARE_SIZE);
+	return Vector2{x, y};
+}
+
+Vector2 Game::get_board_position(int x, int y)
+{
+	x = floor(x / SQUARE_SIZE);
+	y = floor(y / SQUARE_SIZE);
+	return Vector2{float(x), float(y)};
 }
 
 int Game::get_by_position(Vector2& position)
 {
-	convert_position(position);
 	return this->game[position.x][position.y];
 }
 
 void Game::remove_by_position(Vector2& position)
 {
-	convert_position(position);
 	this->game[position.x][position.y] = 0;
 }
 
-bool Game::can_move(DIRECTION direction, Vector2& position)
+bool Game::can_move(DIRECTION direction, Vector2 position)
 {
-	int result = 0;
+	int checker = 0;
 	if(direction == TOP_LEFT)
 	{
 		position.x -= 1;
-		position.y += 1;
-		result = get_by_position(position);
-	}
-	else if(direction == TOP_RIGHT)
-	{
-		position.x += 1;
-		position.y += 1;
-		result = get_by_position(position);
-	}
-	else if(direction == DOWN_RIGHT)
-	{
-		position.x -= 1;
 		position.y -= 1;
-		result = get_by_position(position);
-	}
-	else if(direction == DOWN_LEFT)
-	{
-		position.x += 1;
-		position.y -= 1;
-		result = get_by_position(position);
+		if(is_invalid_position(position)) return false;
 	}
 
-	return result == EMPTY;
+	if(direction == TOP_RIGHT)
+	{
+		position.x += 1;
+		position.y -= 1;
+		if(is_invalid_position(position)) return false;
+	}
+
+	checker = get_by_position(position);
+	return checker == EMPTY;
 }
 
-bool Game::can_conquer(DIRECTION direction, Vector2& position)
+bool Game::can_conquer(DIRECTION direction, Vector2 position)
 {
-	int result = 0;
+	int checker = 0;
 	int team = get_by_position(position);
 
-	// top left
 	if(direction == TOP_LEFT)
 	{
 		position.x -= 1;
 		position.y += 1;
-		result = get_by_position(position);
-		if((team == TEAM_RED && result == TEAM_BLUE) || (team == TEAM_BLUE && result == TEAM_RED))
+		if(is_invalid_position(position)) return false;
+
+		checker = get_by_position(position);
+		if((team == TEAM_RED && checker == TEAM_BLUE) || (team == TEAM_BLUE && checker == TEAM_RED))
 		{
 			position.x -= 1;
 			position.y += 1;
-			result = get_by_position(position);
-			return result == EMPTY;
+
+			if(is_invalid_position(position)) return false;
+			checker = get_by_position(position);
+			return checker == EMPTY;
 		}
-		return false;
 	}
-	// top right
-	else if(direction == TOP_RIGHT)
-	{
-		position.x += 1;
-		position.y += 1;
-		result = get_by_position(position);
-		if((team == TEAM_RED && result == TEAM_BLUE) || (team == TEAM_BLUE && result == TEAM_RED))
-		{
-			position.x += 1;
-			position.y += 1;
-			result = get_by_position(position);
-			return result == EMPTY;
-		}
-		return false;
-	}
-	// down left
-	else if(direction == DOWN_RIGHT)
-	{
-		position.x -= 1;
-		position.y -= 1;
-		result = get_by_position(position);
-		if((team == TEAM_RED && result == TEAM_BLUE) || (team == TEAM_BLUE && result == TEAM_RED))
-		{
-			position.x -= 1;
-			position.y -= 1;
-			result = get_by_position(position);
-			return result == EMPTY;
-		}
-		return false;
-	}
-	// down right
-	else if(direction == DOWN_LEFT)
-	{
-		position.x += 1;
-		position.y -= 1;
-		result = get_by_position(position);
-		if((team == TEAM_RED && result == TEAM_BLUE) || (team == TEAM_BLUE && result == TEAM_RED))
-		{
-			position.x += 1;
-			position.y -= 1;
-			result = get_by_position(position);
-			return result == EMPTY;
-		}
-		return false;
-	}
+
+	return false;
 }
 
-void Game::red_moves(vector<Vector2>& moves, Vector2& position)
+void Game::red_moves(Vector2& position)
 {
-	cout << "Not implemented" << endl;
-	bool can_move_checker = false;
-	bool can_conquer_checker = false;
-
 	if(can_conquer(TOP_LEFT, position))
 	{
-		moves.push_back(Vector2{position.x - 2, position.y + 2});
+		add_move(Vector2{position.x - 2, position.y + 2});
+		return;
 	}
+
 	if(can_conquer(TOP_RIGHT, position))
 	{
-    moves.push_back(Vector2{position.x - 2, position.y - 2});
+		add_move(Vector2{position.x - 2, position.y + 2});
+		return;
 	}
+
 	if(can_move(TOP_LEFT, position))
 	{
-		moves.push_back(Vector2{position.x - 2, position.y + 2});
+		add_move(Vector2{position.x - 1, position.y - 1});
 	}
+
 	if(can_move(TOP_RIGHT, position))
 	{
-    moves.push_back(Vector2{position.x - 2, position.y - 2});
+		add_move(Vector2{position.x + 1, position.y - 1});
 	}
 }
 
-void Game::blue_moves(vector<Vector2>& moves, Vector2& position)
+void Game::blue_moves(Vector2& position)
 {
 	cout << "Not implemented" << endl;
 }
 
-void Game::king_moves(vector<Vector2>& moves, Vector2& position)
+void Game::red_king_moves(Vector2& position)
 {
 	cout << "Not implemented" << endl;
 }
 
-vector<Vector2> Game::get_moves_by_position(Vector2& position)
+void Game::blue_king_moves(Vector2& position)
 {
-	convert_position(position);
+	cout << "Not implemented" << endl;
+}
+
+void Game::get_moves_by_position(Vector2& position)
+{
 	int checker = this->game[position.x][position.y];
 
-	vector<Vector2> moves;
-	if(checker == TEAM_RED)
-	{
-		red_moves(moves, position);
-	}
+	if(checker == TEAM_RED) red_moves(position);
+	if(checker == TEAM_BLUE) blue_moves(position);
+	if(checker == TEAM_RED_KING) red_king_moves(position);
+	if(checker == TEAM_BLUE_KING) blue_king_moves(position);
 
-	else if(checker == TEAM_BLUE)
-	{
-		blue_moves(moves, position);
-	}
+	if(this->moves.size() > 0) set_focus(position);
+}
 
-	else if(checker == TEAM_RED_KING || checker == TEAM_BLUE_KING)
-	{
-		king_moves(moves, position);
-	}
+vector<Vector2> Game::get_moves()
+{
+	return this->moves;
+}
 
-	return moves;
+void Game::reset_moves()
+{
+	this->moves.clear();
+}
+
+void Game::add_move(Vector2 position)
+{
+	this->moves.push_back(position);
+}
+
+optional<Vector2> Game::get_focus()
+{
+	return this->focus;
+}
+
+void Game::reset_focus()
+{
+	this->focus = nullopt;
+}
+
+void Game::set_focus(Vector2& new_focus)
+{
+	this->focus = new_focus;
+}
+
+bool Game::is_invalid_position(Vector2& position)
+{
+	return position.x < 0 || position.x > 7 || position.y < 0 || position.y > 7;
 }

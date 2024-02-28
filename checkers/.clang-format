@@ -8,8 +8,8 @@
 
 # Common settings
 BasedOnStyle:  WebKit
-TabWidth:        4
-IndentWidth:     4
+TabWidth:        2
+IndentWidth:     2
 UseTab:          Always
 ColumnLimit: 100
 
@@ -39,7 +39,7 @@ AllowAllParametersOfDeclarationOnNextLine: true
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: Empty
-AllowShortIfStatementsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: true 
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: false
 AlwaysBreakAfterReturnType: None
