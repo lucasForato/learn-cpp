@@ -3,16 +3,14 @@
 
 #include <functional>
 
-enum EventType
-{
-	CLICK = 4,
+enum EventType {
+  CLICK = 4,
 };
 
-class EventManager
-{
-	public:
-	static bool CLICK();
-	static void connect(bool triggered, std::function<void()> handler);
+class EventManager {
+public:
+  static bool CLICK();
+  static void connect(bool triggered, std::function<void()> handler);
 };
 
 #endif
